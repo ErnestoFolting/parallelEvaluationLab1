@@ -7,7 +7,7 @@ class Ball {
     private static final int XSIZE = 20;
     private static final int YSIZE = 20;
     private int x = 0;
-    private int  y= 0;
+    private int y = 0;
     private int dx = 2;
     private int dy = 2;
 
@@ -30,7 +30,11 @@ class Ball {
     public void draw (Graphics2D g2){
         g2.setColor(Color.darkGray);
         g2.fill(new Ellipse2D.Double(x,y,XSIZE,YSIZE));
-
+    }
+    public boolean touchPocket(double pocketX, double pocketY, double pocketWidth, double pocketHeight){
+        double distanceBetweenCenters = Math.sqrt(Math.pow((pocketX - x),2)+Math.pow(pocketY-y,2));
+        if(distanceBetweenCenters <= pocketWidth/2 + XSIZE)return true;
+        return false;
     }
 
     public void move(){
