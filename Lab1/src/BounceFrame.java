@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 
+
 public class BounceFrame extends JFrame {
 
     private BallCanvas canvas;
@@ -27,6 +28,7 @@ public class BounceFrame extends JFrame {
         JButton add100 = new JButton("Add 100");
         JButton buttonStop = new JButton("Stop");
         JButton addRedAndBlue = new JButton("Add 1 red and 1000 blue");
+        JButton joinDemo = new JButton("Join Demo");
 
 
         buttonStart.addActionListener(new ActionListener() {
@@ -67,14 +69,14 @@ public class BounceFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for(int i=0;i<1000;i++){
-                    Ball b = new Ball(canvas,false);
+                    Ball b = new Ball(canvas,Color.BLUE, false);
                     canvas.add(b);
                     BallThread thread = new BallThread(b);
                     thread.setPriority(thread.MIN_PRIORITY);
                     thread.start();
                     System.out.println("Thread name = " + thread.getName());
                 }
-                Ball b = new Ball(canvas, true);
+                Ball b = new Ball(canvas, Color.RED, false);
                 canvas.add(b);
                 BallThread thread = new BallThread(b);
                 thread.setPriority(thread.MAX_PRIORITY);
@@ -82,10 +84,30 @@ public class BounceFrame extends JFrame {
             }
         });
 
+        joinDemo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Ball b = new Ball(canvas,Color.BLACK, true);
+                canvas.add(b);
+                BallThread prevBall = new BallThread(b);
+                prevBall.start();
+                System.out.println("Start Ball Thread Name = " + prevBall.getName());
+                for(int i=0;i<9;i++){
+                    Ball currentBall = new Ball(canvas,true);
+                    canvas.add(currentBall);
+                    BallThreadNext thread = new BallThreadNext(currentBall,prevBall);
+                    thread.start();
+                    System.out.println("Thread name = " + thread.getName());
+                    prevBall = thread;
+                }
+            }
+        });
+
         buttonPanel.add(buttonStart);
         buttonPanel.add(buttonStop);
         buttonPanel.add(add100);
         buttonPanel.add(addRedAndBlue);
+        buttonPanel.add(joinDemo);
 
         content.add(buttonPanel, BorderLayout.SOUTH);
     }

@@ -10,8 +10,7 @@ class Ball {
     private int y = 0;
     private int dx = 2;
     private int dy = 2;
-
-    private boolean isRed = false;
+    private Color ballColor = Color.gray;
 
     public Ball(Component c){
         this.canvas = c;
@@ -23,12 +22,40 @@ class Ball {
             y = new Random().nextInt(this.canvas.getHeight());
         }
     }
-
-    public Ball(Component c, boolean isRed){
+    Random rand = new Random();
+    public Ball(Component c, boolean randColor){
         this.canvas = c;
-        x = this.canvas.getWidth();
-        y = 0;
-        this.isRed = isRed;
+        if(Math.random()<0.5){
+            x = new Random().nextInt(this.canvas.getWidth());
+            y = 0;
+        }else{
+            x = 0;
+            y = new Random().nextInt(this.canvas.getHeight());
+        }
+        if(randColor){
+            float red = rand.nextFloat();
+            float green = rand.nextFloat();
+            float blue = rand.nextFloat();
+            System.out.println(red);
+            ballColor = new  Color(red,green,blue);
+        }
+    }
+
+    public Ball(Component c, Color color, boolean isRandomPlace){
+        this.canvas = c;
+        if(isRandomPlace){
+            if(Math.random()<0.5){
+                x = new Random().nextInt(this.canvas.getWidth());
+                y = 0;
+            }else{
+                x = 0;
+                y = new Random().nextInt(this.canvas.getHeight());
+            }
+        }else{
+            x = this.canvas.getWidth();
+            y = 0;
+        }
+        this.ballColor = color;
     }
 
     public static void f(){
@@ -36,11 +63,7 @@ class Ball {
     }
 
     public void draw (Graphics2D g2){
-        if(this.isRed) {
-            g2.setColor(Color.RED);
-        }else{
-            g2.setColor(Color.BLUE);
-        }
+        g2.setColor(ballColor);
         g2.fill(new Ellipse2D.Double(x,y,XSIZE,YSIZE));
     }
     public boolean touchPocket(double pocketX, double pocketY, double pocketWidth, double pocketHeight){
