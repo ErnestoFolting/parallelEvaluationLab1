@@ -26,6 +26,8 @@ public class BounceFrame extends JFrame {
         JButton buttonStart = new JButton("Start");
         JButton add100 = new JButton("Add 100");
         JButton buttonStop = new JButton("Stop");
+        JButton addRedAndBlue = new JButton("Add 1 red and 1000 blue");
+
 
         buttonStart.addActionListener(new ActionListener() {
 
@@ -61,10 +63,29 @@ public class BounceFrame extends JFrame {
             }
 
         });
+        addRedAndBlue.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(int i=0;i<1000;i++){
+                    Ball b = new Ball(canvas,false);
+                    canvas.add(b);
+                    BallThread thread = new BallThread(b);
+                    thread.setPriority(thread.MIN_PRIORITY);
+                    thread.start();
+                    System.out.println("Thread name = " + thread.getName());
+                }
+                Ball b = new Ball(canvas, true);
+                canvas.add(b);
+                BallThread thread = new BallThread(b);
+                thread.setPriority(thread.MAX_PRIORITY);
+                thread.start();
+            }
+        });
 
         buttonPanel.add(buttonStart);
         buttonPanel.add(buttonStop);
         buttonPanel.add(add100);
+        buttonPanel.add(addRedAndBlue);
 
         content.add(buttonPanel, BorderLayout.SOUTH);
     }

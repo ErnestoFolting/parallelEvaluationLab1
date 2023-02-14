@@ -11,6 +11,7 @@ class Ball {
     private int dx = 2;
     private int dy = 2;
 
+    private boolean isRed = false;
 
     public Ball(Component c){
         this.canvas = c;
@@ -23,12 +24,23 @@ class Ball {
         }
     }
 
+    public Ball(Component c, boolean isRed){
+        this.canvas = c;
+        x = this.canvas.getWidth();
+        y = 0;
+        this.isRed = isRed;
+    }
+
     public static void f(){
         int a = 0;
     }
 
     public void draw (Graphics2D g2){
-        g2.setColor(Color.darkGray);
+        if(this.isRed) {
+            g2.setColor(Color.RED);
+        }else{
+            g2.setColor(Color.BLUE);
+        }
         g2.fill(new Ellipse2D.Double(x,y,XSIZE,YSIZE));
     }
     public boolean touchPocket(double pocketX, double pocketY, double pocketWidth, double pocketHeight){
