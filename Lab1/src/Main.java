@@ -7,10 +7,33 @@ public class Main {
 
         frame.setVisible(true);
         System.out.println("Thread name = " + Thread.currentThread().getName());
-        ConsoleSync consoleSync = new ConsoleSync();
+
+        //Console output
+        /* ConsoleSync consoleSync = new ConsoleSync();
         ConsoleWriterThread firstChar = new ConsoleWriterThread('-',consoleSync, true);
         ConsoleWriterThread secondChar = new ConsoleWriterThread('|',consoleSync, false);
         firstChar.start();
-        secondChar.start();
+        secondChar.start();*/
+
+        //Counter sync
+        /*Counter counter = new Counter();
+        CounterThread counterThread1 = new CounterThread(false,counter);
+        CounterThread counterThread2 = new CounterThread(true, counter);
+        counterThread1.start();
+        counterThread2.start();*/
+
+        //Counter lock
+        /*CounterLock counter = new CounterLock();
+        CounterThread counterThread1 = new CounterThread(false,counter);
+        CounterThread counterThread2 = new CounterThread(true, counter);
+        counterThread1.start();
+        counterThread2.start();
+        try{
+            counterThread1.join();
+            counterThread2.join();
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        System.out.println(counter.getNumber());*/
     }
 }
