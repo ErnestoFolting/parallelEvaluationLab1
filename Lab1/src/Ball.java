@@ -36,7 +36,6 @@ class Ball {
             float red = rand.nextFloat();
             float green = rand.nextFloat();
             float blue = rand.nextFloat();
-            System.out.println(red);
             ballColor = new  Color(red,green,blue);
         }
     }
