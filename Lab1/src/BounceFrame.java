@@ -2,14 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Ellipse2D;
-
 
 public class BounceFrame extends JFrame {
 
     private BallCanvas canvas;
-    public static final int WIDTH = 650;
-    public static final int HEIGHT = 450;
+    public static final int WIDTH = 1280;
+    public static final int HEIGHT = 720;
 
     public BounceFrame() {
         this.setSize(WIDTH, HEIGHT);
@@ -29,23 +27,21 @@ public class BounceFrame extends JFrame {
         JButton buttonStop = new JButton("Stop");
         JButton addRedAndBlue = new JButton("Add 1 red and 1000 blue");
         JButton joinDemo = new JButton("Join Demo");
+        JButton consoleDemo = new JButton("Console Demo");
+        JButton counterSyncDemo = new JButton("Counter Sync Demo");
+        JButton counterLockDemo = new JButton("Counter Lock Demo");
 
 
         buttonStart.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 Ball b = new Ball(canvas);
                 canvas.add(b);
-
                 BallThread thread = new BallThread(b);
                 thread.start();
-                System.out.println("Thread name = " + thread.getName());
             }
         });
         add100.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 for(int i=0;i<100;i++){
@@ -53,14 +49,12 @@ public class BounceFrame extends JFrame {
                     canvas.add(b);
                     BallThread thread = new BallThread(b);
                     thread.start();
-                    System.out.println("Thread name = " + thread.getName());
                 }
             }
         });
         buttonStop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 System.exit(0);
             }
 
@@ -74,7 +68,6 @@ public class BounceFrame extends JFrame {
                     BallThread thread = new BallThread(b);
                     thread.setPriority(thread.MIN_PRIORITY);
                     thread.start();
-                    System.out.println("Thread name = " + thread.getName());
                 }
                 Ball b = new Ball(canvas, Color.RED, false);
                 canvas.add(b);
@@ -89,17 +82,61 @@ public class BounceFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Ball b = new Ball(canvas,Color.BLACK, true);
                 canvas.add(b);
-                BallThread prevBall = new BallThread(b);
-                prevBall.start();
-                System.out.println("Start Ball Thread Name = " + prevBall.getName());
+                BallThread prevBallThread = new BallThread(b);
+                prevBallThread.start();
                 for(int i=0;i<9;i++){
                     Ball currentBall = new Ball(canvas,true);
                     canvas.add(currentBall);
-                    BallThreadNext thread = new BallThreadNext(currentBall,prevBall);
+                    BallThreadNext thread = new BallThreadNext(currentBall,prevBallThread);
                     thread.start();
-                    System.out.println("Thread name = " + thread.getName());
-                    prevBall = thread;
+                    prevBallThread = thread;
                 }
+            }
+        });
+
+        consoleDemo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ConsoleSync consoleSync = new ConsoleSync();
+                ConsoleWriterThread firstChar = new ConsoleWriterThread('-',consoleSync, true);
+                ConsoleWriterThread secondChar = new ConsoleWriterThread('|',consoleSync, false);
+                firstChar.start();
+                secondChar.start();
+            }
+        });
+
+        counterSyncDemo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Counter counter = new Counter();
+                CounterThread counterThread1 = new CounterThread(false,counter);
+                CounterThread counterThread2 = new CounterThread(true, counter);
+                counterThread1.start();
+                counterThread2.start();
+                try{
+                    counterThread1.join();
+                    counterThread2.join();
+                }catch(Exception ex){
+                    System.out.println(ex.getMessage());
+                }
+                System.out.println("After increments and decrements (sync Counter) " + counter.getNumber());
+            }
+        });
+        counterLockDemo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CounterLock counter = new CounterLock();
+                CounterThread counterThread1 = new CounterThread(false,counter);
+                CounterThread counterThread2 = new CounterThread(true, counter);
+                counterThread1.start();
+                counterThread2.start();
+                try{
+                    counterThread1.join();
+                    counterThread2.join();
+                }catch(Exception ex){
+                    System.out.println(ex.getMessage());
+                }
+                System.out.println("After increments and decrements (lock Counter) " + counter.getNumber());
             }
         });
 
@@ -108,6 +145,9 @@ public class BounceFrame extends JFrame {
         buttonPanel.add(add100);
         buttonPanel.add(addRedAndBlue);
         buttonPanel.add(joinDemo);
+        buttonPanel.add(consoleDemo);
+        buttonPanel.add(counterSyncDemo);
+        buttonPanel.add(counterLockDemo);
 
         content.add(buttonPanel, BorderLayout.SOUTH);
     }

@@ -10,10 +10,12 @@ public class CounterThread extends Thread {
         if (_isIncrement){
             for(int i=0;i<100000;i++){
                 _counter.increment();
+                /*System.out.println(_counter.getNumber());*/
             }
         }else{
             for(int i=0;i<100000;i++){
                 _counter.decrement();
+                /*System.out.println(_counter.getNumber());*/
             }
         }
     }

@@ -1,5 +1,3 @@
-import com.sun.jdi.ThreadReference;
-
 public class BallThread extends Thread {
     private Ball b;
     public BallThread(Ball ball){

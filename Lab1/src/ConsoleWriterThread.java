@@ -12,6 +12,7 @@ public class ConsoleWriterThread extends Thread{
     @Override
     public void run(){
         for(int i =0;i<50000;i++){
+            /*System.out.print(_charToWrite);*/
             _consoleSync.writeAndChangeWriter(_control,_charToWrite);
         }
     }

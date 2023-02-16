@@ -26,17 +26,17 @@ class Ball {
     public Ball(Component c, boolean randColor){
         this.canvas = c;
         if(Math.random()<0.5){
-            x = new Random().nextInt(this.canvas.getWidth());
+            x = rand.nextInt(this.canvas.getWidth());
             y = 0;
         }else{
             x = 0;
-            y = new Random().nextInt(this.canvas.getHeight());
+            y = rand.nextInt(this.canvas.getHeight());
         }
         if(randColor){
             float red = rand.nextFloat();
             float green = rand.nextFloat();
             float blue = rand.nextFloat();
-            ballColor = new  Color(red,green,blue);
+            ballColor = new Color(red,green,blue);
         }
     }
 
@@ -44,11 +44,11 @@ class Ball {
         this.canvas = c;
         if(isRandomPlace){
             if(Math.random()<0.5){
-                x = new Random().nextInt(this.canvas.getWidth());
+                x = rand.nextInt(this.canvas.getWidth());
                 y = 0;
             }else{
                 x = 0;
-                y = new Random().nextInt(this.canvas.getHeight());
+                y = rand.nextInt(this.canvas.getHeight());
             }
         }else{
             x = this.canvas.getWidth();

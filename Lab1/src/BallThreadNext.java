@@ -1,8 +1,8 @@
 public class BallThreadNext extends BallThread {
     private Thread prevBallThread;
-    public BallThreadNext(Ball ball, BallThread prevBall) {
+    public BallThreadNext(Ball ball, BallThread prevBallThread) {
         super(ball);
-        prevBallThread = prevBall;
+        this.prevBallThread = prevBallThread;
     }
     @Override
     public void run(){
