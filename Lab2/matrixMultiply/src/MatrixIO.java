@@ -26,21 +26,21 @@ public class MatrixIO {
         reader.close();
         return matrix;
     }
-    public static List<List<Double>> generateMatrix(int size){
-        List<List<Double>> matrix = new ArrayList<>();
+    public static float[][] generateMatrix(int size){
+        float[][] matrix = new float[size][size];
         for (int i = 0; i < size; i++) {
-            List<Double> row = new ArrayList<>();
+            float[] row = new float[size];
             for (int j = 0; j < size; j++) {
-                row.add(1.0);
+                row[j] = 1;
             }
-            matrix.add(row);
+            matrix[i] = row;
         }
         return matrix;
     }
-    public static void printMatr(List<List<Double>> matrixToPrint){
-        for (List<Double> row : matrixToPrint) {
-            for (Double element : row) {
-                System.out.print(element + " ");
+    public static void printMatr(float[][] matrixToPrint){
+        for(int i =0;i<matrixToPrint.length;i++){
+            for(int j=0;j<matrixToPrint[i].length;j++){
+                System.out.print(matrixToPrint[i][j] + " ");
             }
             System.out.println();
         }

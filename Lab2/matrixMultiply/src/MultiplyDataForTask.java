@@ -1,12 +1,12 @@
 import java.util.List;
 public class MultiplyDataForTask{
-    private List<Double> _rowElements;
+    private float[] _rowElements;
     private Result _resultMatrix;
     public int _rowNumber;
     public int _columnNumber;
-    public List<Double> columnElements;
+    public float[] columnElements;
 
-    public MultiplyDataForTask(List<Double> rowElements, List<Double> columnElements, int rowNumber, int columnNumber, Result resultMatrix){
+    public MultiplyDataForTask(float[]rowElements, float[] columnElements, int rowNumber, int columnNumber, Result resultMatrix){
         this.columnElements = columnElements;
         this._rowElements = rowElements;
         this._resultMatrix = resultMatrix;
@@ -14,10 +14,10 @@ public class MultiplyDataForTask{
         this._columnNumber = columnNumber;
     }
     public void multiply(){
-        double sum = 0;
+        float sum = 0;
         for(int i =0;i<_resultMatrix.getSize();i++){
-            sum += _rowElements.get(i) * columnElements.get(i);
+            sum += _rowElements[i] * columnElements[i];
         }
-        _resultMatrix.put(_rowNumber,_columnNumber,sum);
+        _resultMatrix.resMatrix[_rowNumber][_columnNumber] = sum;
     }
 }
