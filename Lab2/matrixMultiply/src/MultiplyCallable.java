@@ -1,13 +1,14 @@
 import java.util.concurrent.Callable;
 
-public class MultiplyCallable implements Callable<Double> {
+public class MultiplyCallable implements Callable<Object> {
 
     MultiplyDataForTask data;
     public MultiplyCallable(MultiplyDataForTask data){
         this.data=data;
     }
     @Override
-    public Double call() {
-        return data.multiply();
+    public Object call() {
+        data.multiply();
+        return null;
     }
 }
