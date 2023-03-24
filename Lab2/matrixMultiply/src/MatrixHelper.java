@@ -1,14 +1,12 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class MatrixHelper {
-    public static float[] getColumn(float[][] matr, int columnIndex){
-        float[] column = new float[matr.length];
+    public static float[][] getTranspose(float[][] matr){
+        float[][] transposedMatrix = new float[matr.length][matr.length];
+
         for (int i = 0; i < matr.length; i++) {
-            float[]row = matr[i];
-            float element = row[columnIndex];
-            column[i] = element;
+            for (int j = 0; j < matr.length; j++) {
+                transposedMatrix[i][j] = matr[j][i];
+            }
         }
-        return column;
+        return transposedMatrix;
     }
 }
