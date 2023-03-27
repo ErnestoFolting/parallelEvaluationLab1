@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Result {
     public float[][] resMatrix;
 
@@ -14,8 +11,16 @@ public class Result {
         }
     }
 
+    public void putBlock(float[][] block, int blockI, int blockJ, int blockSize){
+        for(int i = blockSize*blockI;i< blockSize*(blockI+1);i++){
+            for(int j = blockSize*blockJ;j< blockSize*(blockJ+1);j++){
+                resMatrix[i][j] = block[i%blockSize][j%blockSize];
+            }
+        }
+    }
 
     public int getSize() {
         return resMatrix.length;
     }
 }
+
