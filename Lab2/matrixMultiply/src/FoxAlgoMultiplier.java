@@ -10,8 +10,7 @@ public class FoxAlgoMultiplier implements IMatrixMultiplier{
         Result result = new Result(matr1.length);
         int verticallyBlockCount = matr1.length / _blockSize;
         int threadCount = verticallyBlockCount * verticallyBlockCount;
-        var executor = (ThreadPoolExecutor)Executors.newFixedThreadPool(8);
-        System.out.println(threadCount);
+        var executor = (ThreadPoolExecutor)Executors.newFixedThreadPool(threadCount);
         var tasksToExecute = new ArrayList<Callable<Object>>();
         var datas = new ArrayList<BlocksThreadData>();
         for(int i=0;i<verticallyBlockCount;i++){

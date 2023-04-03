@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-       float[][] matrix = MatrixIO.generateMatrix(2000);
-        float[][] matrix2 = MatrixIO.generateMatrix(2000);
+       float[][] matrix = MatrixIO.generateMatrix(1000);
+        float[][] matrix2 = MatrixIO.generateMatrix(1000);
 
 /*        var before = System.currentTimeMillis();
         ConcurrentMultiplier concurrentAlgo = new ConcurrentMultiplier();
@@ -19,6 +19,7 @@ public class Main {
         FoxAlgoMultiplier foxAlgo = new FoxAlgoMultiplier();
         Result result = foxAlgo.multiply(matrix,matrix2);
         var after = System.currentTimeMillis();
+        MatrixIO.printMatr(result.resMatrix);
         System.out.println(after-before);
     }
 }
