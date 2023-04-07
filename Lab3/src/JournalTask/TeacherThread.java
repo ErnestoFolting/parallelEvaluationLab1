@@ -12,10 +12,12 @@ public class TeacherThread extends Thread {
     }
     @Override
     public void run(){
-        for (Group group: _groupsToPutMarks) {
-            for (Student student : group.Students) {
-                Random rand = new Random();
-                _journal.putMark(rand.nextInt(101),student,group);
+        for(int i=0;i<100;i++){
+            for (Group group: _groupsToPutMarks) {
+                for (Student student : group.Students) {
+                    Random rand = new Random();
+                    _journal.putMark(rand.nextInt(101),student,group);
+                }
             }
         }
     }

@@ -11,9 +11,11 @@ public class AssistantThread extends Thread {
     }
     @Override
     public void run(){
-        for (Student student : _groupToWriteMarks.Students) {
-            Random rand = new Random();
-            _journal.putMark(rand.nextInt(101),student,_groupToWriteMarks);
+        for(int i=0;i<100;i++){
+            for (Student student : _groupToWriteMarks.Students) {
+                Random rand = new Random();
+                _journal.putMark(rand.nextInt(101),student,_groupToWriteMarks);
+            }
         }
     }
 }

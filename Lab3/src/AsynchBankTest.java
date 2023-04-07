@@ -28,6 +28,14 @@ class Bank {
         ntransacts = 0;
         _locker = new ReentrantLock();
     }
+
+    public  void transfer(int from, int to, int amount) {
+        accounts[from] -= amount;
+        accounts[to] += amount;
+        ntransacts++;
+        if (ntransacts % NTEST == 0)
+            test();
+    }
     public synchronized void transferSynch(int from, int to, int amount) {
         accounts[from] -= amount;
         accounts[to] += amount;
@@ -35,7 +43,7 @@ class Bank {
         if (ntransacts % NTEST == 0)
             test();
     }
-    public synchronized void transferSynchBlock(int from, int to, int amount) {
+    public void transferSynchBlock(int from, int to, int amount) {
         synchronized (this){
             accounts[from] -= amount;
             accounts[to] += amount;
@@ -45,7 +53,7 @@ class Bank {
         }
 
     }
-    public synchronized void transferLocker(int from, int to, int amount) {
+    public void transferLocker(int from, int to, int amount) {
         _locker.lock();
         try{
             accounts[from] -= amount;
@@ -84,9 +92,10 @@ class TransferThread extends Thread {
             for (int i = 0; i < REPS; i++) {
                 int toAccount = (int) (bank.size() * Math.random());
                 int amount = (int) (maxAmount * Math.random()/REPS);
-                /*bank.transferSynch(fromAccount, toAccount, amount);*/
+/*                bank.transfer(fromAccount,toAccount,amount);*/
+                bank.transferSynch(fromAccount, toAccount, amount);
 /*                bank.transferSynchBlock(fromAccount, toAccount, amount);*/
-                bank.transferLocker(fromAccount, toAccount, amount);
+/*                bank.transferLocker(fromAccount, toAccount, amount);*/
             }
         }
     }
