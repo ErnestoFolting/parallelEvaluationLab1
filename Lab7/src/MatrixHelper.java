@@ -55,6 +55,7 @@ public class MatrixHelper {
         float[][] array = new float[rows][cols];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
+/*                System.out.println("Try get " + bytes.length + " bytes " + " rows " + rows);*/
                 float fl = buffer.getFloat();
                 array[i][j] = fl;
             }
@@ -87,4 +88,5 @@ public class MatrixHelper {
         }
         return res;
     }
+
 }
