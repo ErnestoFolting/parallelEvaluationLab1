@@ -2,14 +2,14 @@ import mpi.MPI;
 import mpi.MPIException;
 
 public class GroupMessagingMatrixMultiply {
-    private static final int sizeMatrixA = 1500;
-    private static final int sizeMatrixB = 1500;
+    private static final int sizeMatrixA = 500;
+    private static final int sizeMatrixB = 500;
 
     public static void main(String[] args) throws MPIException {
         float[][] matrixA = new float[sizeMatrixA][sizeMatrixA];
         float[][] matrixB = new float[sizeMatrixB][sizeMatrixB];
         long startTime = System.currentTimeMillis();
-        long endTime = System.currentTimeMillis();
+        long endTime;
 
         MPI.Init(args);
 
@@ -62,8 +62,14 @@ public class GroupMessagingMatrixMultiply {
 
         byte[] resInProcessByte = MatrixHelper.flattenFloatArray(resInProcess);
 
-        MPI.COMM_WORLD.Gatherv(resInProcessByte,0,resInProcessByte.length,MPI.BYTE, resByte,0, countsInBytes,displs,MPI.BYTE,0);
+        //gather results from processes
+/*        MPI.COMM_WORLD.Gatherv(resInProcessByte,0,resInProcessByte.length,MPI.BYTE, resByte,0, countsInBytes,displs,MPI.BYTE,0);*/
+        MPI.COMM_WORLD.Allgatherv(resInProcessByte,0,resInProcessByte.length,MPI.BYTE,resByte,0,countsInBytes,displs,MPI.BYTE);
 
+        /*if(processId == 1){
+            float[][] res = MatrixHelper.unflattenFloatArray(resByte,sizeMatrixA,sizeMatrixA);
+            MatrixHelper.printMatr(res);
+        }*/
         if(processId == 0){
             float[][] res = MatrixHelper.unflattenFloatArray(resByte,sizeMatrixA,sizeMatrixA);
             endTime = System.currentTimeMillis();
