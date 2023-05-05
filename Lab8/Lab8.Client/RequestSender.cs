@@ -13,6 +13,7 @@ namespace Lab8.Client
             Console.Write("Input the matrix size: ");
             int matrixSize = Convert.ToInt32(Console.ReadLine());
 
+            long startTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             var data = new { Size = matrixSize };
             var json = JsonConvert.SerializeObject(data);
             var bodyContent = new StringContent(json, Encoding.UTF8, "application/json");
@@ -21,7 +22,8 @@ namespace Lab8.Client
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(content);
+                long endTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                Console.WriteLine(content + "\n" + "Execution time: " + (endTime - startTime));
             }
             else
             {
@@ -33,6 +35,8 @@ namespace Lab8.Client
         {
             Console.Write("Input the matrix size: ");
             int matrixSize = Convert.ToInt32(Console.ReadLine());
+
+            long startTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
             float[,] matrix1 = MatrixHelper.generateMatrix(matrixSize);
             float[,] matrix2 = MatrixHelper.generateMatrix(matrixSize);
@@ -49,7 +53,8 @@ namespace Lab8.Client
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(content);
+                long endTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                Console.WriteLine(content + "\n" + "Execution time: " + (endTime - startTime));
             }
             else
             {

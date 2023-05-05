@@ -74,11 +74,9 @@
         }
         public static float[] getRow(float[,] matr, int rowIndex)
         {
-            float[] result = new float[matr.GetLength(1)];
-            for(int i = 0; i < matr.GetLength(1); i++){
-                result[i] = matr[rowIndex,i];
-            }
-            return result;
+            float[] row = new float[matr.GetLength(1)];
+            Buffer.BlockCopy(matr, 0, row, 0, matr.GetLength(1) * sizeof(float));
+            return row;
         }
         public static float[,] readMatrixFromString(string matrixString, int size)
         {

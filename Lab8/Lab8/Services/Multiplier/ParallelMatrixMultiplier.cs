@@ -2,13 +2,27 @@
 {
     public class ParallelMatrixMultiplier : IMatrixMultiplier
     {
-        public (float[] firstRow, long executionTime) multiply(int matrixSize, float[,] matrA, float[,] matrB)
+        public float[] multiply(int matrixSize, float[,] matrA, float[,] matrB)
         {
+
             long startTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+
+            long checkTime = 0;
 
             Result result = new Result(matrixSize);
 
+            //help matrixes
             float[,] matrBTranspose = MatrixHelper.getTranspose(matrB);
+
+            float[][] matrBTransposeJagged = new float[matrBTranspose.GetLength(0)][];
+            for (int i = 0; i < matrBTranspose.GetLength(0); i++)
+            {
+                matrBTransposeJagged[i] = new float[matrBTranspose.GetLength(1)];
+                for (int j = 0; j < matrBTranspose.GetLength(1); j++)
+                {
+                    matrBTransposeJagged[i][j] = matrBTranspose[i, j];
+                }
+            }
 
             MultiplyDataForTask[] datas = new MultiplyDataForTask[matrixSize];
             
@@ -29,17 +43,23 @@
 
                 Task.WaitAll(tasks);
 
-                foreach(MultiplyDataForTask data in datas)
+                long localStartTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+
+                foreach (MultiplyDataForTask data in datas)
                 {
                     int newIndex = data._columnNumber == matrixSize - 1 ? 0 : data._columnNumber + 1;
-                    data.columnElements = MatrixHelper.getRow(matrBTranspose,newIndex);
+                    data.columnElements = matrBTransposeJagged[newIndex];
                     data._columnNumber = newIndex;
                 }
+
+                long localEndTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                checkTime += (localEndTime - localStartTime);
             }
-            
             long endTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            result.output();
-            return (MatrixHelper.getRow(result.resMatrix, 0), endTime-startTime);
+            Console.WriteLine("Time: " + (endTime - startTime));
+            Console.WriteLine("Check Time: " + checkTime);
+            /*result.output();*/
+            return (MatrixHelper.getRow(result.resMatrix, 0));
         }
     }
 }
